@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    div.text-center
+        div(class="form-signin")
+            div.text-center
+                if error
+                    p Oh no, #{error}.  Please try again!
+                else
+                    p congratulations! You just logged in with two-factor using Bandwidth 2fa!
