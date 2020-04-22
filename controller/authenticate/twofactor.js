@@ -5,17 +5,12 @@ const exampleAppConfig = require('../../config');
  * Craft a `text2fa` object required for the Bandwidth two-factor service.  The
  * structure of the object follows
  *
- * Text2FA: [
- *  {AccountId: [<<accountId>>]},
- *  {ApplicationId: [<<ApplicationId>>]},
- *  {action: [<<action>>]},
- *  {To: [
- *      {PhoneNum: [<<phoneNumber>>]}
- *  ]},
- *  {From: [
- *      {PhoneNum: [<<phoneNumber>>]}
- *  ]}
- * ]
+ *  {
+ *      "to": "<<E164 Number>>",
+ *      "from": "<<E164 Number>>",
+ *      "applicationId": "<<ApplicationId>>",
+ *      "scope": "<<scope>>"
+ *  }
  *
  * DISCLAIMER: For the sake of simplicity, the example app uses "testing" as the
  * action.  Please read the official two-factor service documentation to
@@ -24,27 +19,14 @@ const exampleAppConfig = require('../../config');
  * @param phoneNumber a phone number to send an SMS with the 2fa code
  */
 const sendSmsCode = async (phoneNumber) => {
-    const text2fa = {
-        Text2FA: [{
-            AccountId: [exampleAppConfig.accountId]
-        }, {
-            ApplicationId: [exampleAppConfig.applicationId]
-        }, {
-            Action: ["testing"]
-        }, {
-            To: [{
-                PhoneNum: [phoneNumber]
-            }]
-        }, {
-            From: [{
-                PhoneNum: [exampleAppConfig.phoneNum]
-            }]
-        }]
-    };
-
     await axios.post(
-        exampleAppConfig.twofactorUrl,
-        text2fa,
+        exampleAppConfig.twofactorUrl(exampleAppConfig.accountId, "messaging"),
+        {
+            to: phoneNumber,
+            from: exampleAppConfig.phoneNum,
+            applicationId: exampleAppConfig.applicationId,
+            scope: "Two-Factor"
+        },
         {
             auth: {
                 username: exampleAppConfig.apiUser,
@@ -64,18 +46,13 @@ const sendSmsCode = async (phoneNumber) => {
  * Craft a `check2fa` object required for the Bandwidth two-factor service.  The
  * structure of the object follows
  *
- * Check2FA: [
- *  {AccountId: [<<accountId>>]},
- *  {ApplicationId: [<<ApplicationId>>]},
- *  {action: [<<action>>]},
- *  {To: [
- *      {PhoneNum: [<<phoneNumber>>]}
- *  ]},
- *  {From: [
- *      {PhoneNum: [<<phoneNumber>>]}
- *  ]},
- *  <<pinCode>>
- * ]
+ *  {
+ *      "to": "<<E164 Number>>",
+ *      "from": "<<E164 Number>>",
+ *      "applicationId": "<<ApplicationId>>",
+ *      "scope": "<<scope>>",
+ *      "code": "<<code>>"
+ *  }
  *
  * DISCLAIMER: For the sake of simplicity, the example app uses "testing" as the
  * action.  Please read the official two-factor service documentation to
@@ -84,28 +61,15 @@ const sendSmsCode = async (phoneNumber) => {
  * @param user an user object with the phone number to send an SMS with the 2fa code
  */
 const checkCode = async (user) => {
-    const check2fa = {
-        CheckCode: [{
-            AccountId: [exampleAppConfig.accountId]
-        }, {
-            ApplicationId: [exampleAppConfig.applicationId]
-        }, {
-            Action: ["testing"]
-        }, {
-            To: [{
-                PhoneNum: [user.phone]
-            }]
-        }, {
-            From: [{
-                PhoneNum: [exampleAppConfig.phoneNum]
-            }]
-        }, user.code
-        ]
-    };
-
     const response = await axios.post(
-        exampleAppConfig.twofactorUrl,
-        check2fa,
+        exampleAppConfig.twofactorUrl(exampleAppConfig.accountId, "verify"),
+        {
+            to: user.phone,
+            from: exampleAppConfig.phoneNum,
+            applicationId: exampleAppConfig.applicationId,
+            scope: "Two-Factor",
+            code: user.code
+        },
         {
             auth: {
                 username: exampleAppConfig.apiUser,
