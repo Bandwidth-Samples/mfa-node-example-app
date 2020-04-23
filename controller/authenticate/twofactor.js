@@ -23,9 +23,9 @@ const sendSmsCode = async (phoneNumber) => {
         exampleAppConfig.twofactorUrl(exampleAppConfig.accountId, "messaging"),
         {
             to: phoneNumber,
-            from: exampleAppConfig.phoneNum,
+            from: exampleAppConfig.phoneNumber,
             applicationId: exampleAppConfig.applicationId,
-            scope: "Two-Factor"
+            scope: "example"
         },
         {
             auth: {
@@ -65,9 +65,9 @@ const checkCode = async (user) => {
         exampleAppConfig.twofactorUrl(exampleAppConfig.accountId, "verify"),
         {
             to: user.phone,
-            from: exampleAppConfig.phoneNum,
+            from: exampleAppConfig.phoneNumber,
             applicationId: exampleAppConfig.applicationId,
-            scope: "Two-Factor",
+            scope: "example",
             code: user.code
         },
         {
