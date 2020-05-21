@@ -2,9 +2,7 @@
 
 
 ## Overview
-This example application is built to show how to add two-factor authentication into a simple Node project.  The example application is built on top of Express and other popular javascript libraries.  This project is by no mean a production ready project, please evaluate your individual need and requirements.
-
-It is highly recommended you follow the Bandwidth SDK version of the example application.  However, this project will demonstrate how to quickly add two-factor capabilities to any application quickly.
+This example application is built to show how to add [Bandwidth multi-factor authentication](dev.bandwidth.com/mfa/about.html) into a simple Node project.  The example application is built on top of Express and other popular javascript libraries.  This project is by no mean a production ready project, please evaluate your individual needs and requirements.
 
 ## Requirements
 
