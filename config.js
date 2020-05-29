@@ -35,7 +35,7 @@ module.exports = {
      *
      * The format for the phone number must be in an E.164 format.
      */
-    phoneNum: '',
+    phoneNumber: '',
 
     /**
      * The phone number to dial out to.  The pins from two-factor will be sent
@@ -43,5 +43,5 @@ module.exports = {
      *
      * The format for the phone number must be in an E.164 format.
      */
-    phoneNumToDialTo: ''
+    phoneNumberToDialTo: ''
 };

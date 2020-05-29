@@ -10,7 +10,7 @@ const exampleAppConfig = require('../../config');
 const login = (user, password) => {
     return (user === "user@bandwidth.com" && password === "password") ? {
         username: 'user@bandwidth.com',
-        phone: exampleAppConfig.phoneNumToDialTo
+        phone: exampleAppConfig.phoneNumberToDialTo
     } : false;
 };
 

@@ -21,7 +21,7 @@ The following steps will guide you to using this example application
     * A Bandwidth Application Id associated with two-factor
     * A Bandwidth Phone number provisioned for two-factor
 2. Modify `config.js` in the root directory with your information
-3. Modify `config.js` `phoneNumToDialTo` to a phone number to receive the code
+3. Modify `config.js` `phoneNumberToDialTo` to a phone number to receive the code
 4. Install dependencies `npm install`
 5. Run the Express server `npm start`
 6. navigate to `localhost:3000` in a browser
