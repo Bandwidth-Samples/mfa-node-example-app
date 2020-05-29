@@ -26,7 +26,7 @@ const sendSmsCode = async (phoneNumber) => {
 
     return await controller.createMessagingTwoFactor(exampleAppConfig.accountId,
       new twofactor.TwoFactorCodeRequestSchema({
-        from: exampleAppConfig.phoneNum,
+        from: exampleAppConfig.phoneNumber,
         to: phoneNumber,
         applicationId: exampleAppConfig.applicationId,
         scope: 'authorization'
@@ -55,7 +55,7 @@ const checkCode = async (user) => {
 
   return await controller.createVerifyTwoFactor(exampleAppConfig.accountId,
     new twofactor.TwoFactorVerifyRequestSchema({
-      from: exampleAppConfig.phoneNum,
+      from: exampleAppConfig.phoneNumber,
       to: user.phone,
       applicationId: exampleAppConfig.applicationId,
       scope: 'authorization',
