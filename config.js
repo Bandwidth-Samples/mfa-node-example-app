@@ -38,18 +38,6 @@ module.exports = {
     phoneNumber: '',
 
     /**
-     * The URL of the two factor application.  This value is only required if
-     * you do not plan on using the SDK.  It is, however, strongly recommended
-     * you use the SDK.
-     */
-    twofactorUrl: (accountId, endpoint) => {
-        return 'https://mfa.bandwidth.com/api/v1/accounts/'
-            + accountId
-            + '/code/'
-            + endpoint;
-    },
-
-    /**
      * The phone number to dial out to.  The pins from two-factor will be sent
      * to this phone number.
      *

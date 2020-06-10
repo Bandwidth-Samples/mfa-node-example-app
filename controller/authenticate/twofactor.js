@@ -1,83 +1,66 @@
-const axios = require('axios');
 const exampleAppConfig = require('../../config');
+const twofactor = require('@bandwidth/mfa');
+
+// Configure the library to use the correct api credentials
+twofactor.Configuration.basicAuthUserName = exampleAppConfig.apiUser;
+twofactor.Configuration.basicAuthPassword = exampleAppConfig.apiPass;
 
 /**
- * Craft a `text2fa` object required for the Bandwidth two-factor service.  The
+ * Craft an object required for the Bandwidth two-factor messaging service.  The
  * structure of the object follows
  *
- *  {
- *      "to": "<<E164 Number>>",
- *      "from": "<<E164 Number>>",
- *      "applicationId": "<<ApplicationId>>",
- *      "scope": "<<scope>>"
- *  }
+ * {
+ *   from: "string",
+ *   to: "string",
+ *   applicationId: "string",
+ *   scope: "string"
+ * }
  *
- * DISCLAIMER: For the sake of simplicity, the example app uses "testing" as the
- * action.  Please read the official two-factor service documentation to
- * determine the proper action to take.
+ * To learn more about each field, please refer to the documentation.
+ * dev.bandwidth.com/mfa/methods/code/messaging.html
  *
  * @param phoneNumber a phone number to send an SMS with the 2fa code
  */
 const sendSmsCode = async (phoneNumber) => {
-    await axios.post(
-        exampleAppConfig.twofactorUrl(exampleAppConfig.accountId, "messaging"),
-        {
-            to: phoneNumber,
-            from: exampleAppConfig.phoneNumber,
-            applicationId: exampleAppConfig.applicationId,
-            scope: "example"
-        },
-        {
-            auth: {
-                username: exampleAppConfig.apiUser,
-                password: exampleAppConfig.apiPass
-            }
-        })
-    .then(function (response) {
-        return true;
-    })
-    .catch(function (error) {
-        console.log(error);
-        return false;
-    });
+    controller = twofactor.APIController;
+
+    return await controller.createMessagingTwoFactor(exampleAppConfig.accountId,
+      new twofactor.TwoFactorCodeRequestSchema({
+        from: exampleAppConfig.phoneNumber,
+        to: phoneNumber,
+        applicationId: exampleAppConfig.applicationId,
+        scope: 'authorization'
+      }));
 };
 
 /**
- * Craft a `check2fa` object required for the Bandwidth two-factor service.  The
- * structure of the object follows
+ * Craft an object required for the Bandwidth two-factor validation service.
+ * The structure of the object follows
  *
- *  {
- *      "to": "<<E164 Number>>",
- *      "from": "<<E164 Number>>",
- *      "applicationId": "<<ApplicationId>>",
- *      "scope": "<<scope>>",
- *      "code": "<<code>>"
- *  }
+ * {
+ *   from: "string",
+ *   to: "string",
+ *   applicationId: "string",
+ *   scope: "string",
+ *   code: "string"
+ * }
  *
- * DISCLAIMER: For the sake of simplicity, the example app uses "testing" as the
- * action.  Please read the official two-factor service documentation to
- * determine the proper action to take.
+ * To learn more about each field, please refer to the documentation.
+ * dev.bandwidth.com/mfa/methods/code/verify.html
  *
  * @param user an user object with the phone number to send an SMS with the 2fa code
  */
 const checkCode = async (user) => {
-    const response = await axios.post(
-        exampleAppConfig.twofactorUrl(exampleAppConfig.accountId, "verify"),
-        {
-            to: user.phone,
-            from: exampleAppConfig.phoneNumber,
-            applicationId: exampleAppConfig.applicationId,
-            scope: "example",
-            code: user.code
-        },
-        {
-            auth: {
-                username: exampleAppConfig.apiUser,
-                password: exampleAppConfig.apiPass
-            }
-        });
+  controller = twofactor.APIController;
 
-    return response.data;
+  return await controller.createVerifyTwoFactor(exampleAppConfig.accountId,
+    new twofactor.TwoFactorVerifyRequestSchema({
+      from: exampleAppConfig.phoneNumber,
+      to: user.phone,
+      applicationId: exampleAppConfig.applicationId,
+      scope: 'authorization',
+      code: user.code
+    }));
 };
 
 module.exports = {
