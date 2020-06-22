@@ -29,7 +29,9 @@ const sendSmsCode = async (phoneNumber) => {
         from: exampleAppConfig.phoneNumber,
         to: phoneNumber,
         applicationId: exampleAppConfig.applicationId,
-        scope: 'authorization'
+        scope: 'authorization',
+        message: 'Your temporary {NAME} {SCOPE} code is {CODE}',
+        digits: 6
       }));
 };
 
@@ -59,7 +61,9 @@ const checkCode = async (user) => {
       to: user.phone,
       applicationId: exampleAppConfig.applicationId,
       scope: 'authorization',
-      code: user.code
+      code: user.code,
+      digits: 6,
+      expirationTimeInMinutes: 3
     }));
 };
 
