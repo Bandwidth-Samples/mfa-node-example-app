@@ -26,12 +26,10 @@ const sendSmsCode = async (phoneNumber) => {
 
     return await controller.createMessagingTwoFactor(exampleAppConfig.accountId,
       new twofactor.TwoFactorCodeRequestSchema({
-        from: exampleAppConfig.phoneNumber,
         to: phoneNumber,
         applicationId: exampleAppConfig.applicationId,
         scope: 'authorization',
-        message: 'Your temporary {NAME} {SCOPE} code is {CODE}',
-        digits: 6
+        message: 'Your temporary {NAME} {SCOPE} code is {CODE}'
       }));
 };
 
