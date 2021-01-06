@@ -6,7 +6,7 @@
     "start": "node bin/www"
   },
   "dependencies": {
-    "@bandwidth/mfa": "^1.1.0",
+    "@bandwidth/mfa": "^2.0.0",
     "acorn": "^5.7.4",
     "cookie-parser": "^1.4.4",
     "debug": "^2.6.9",
