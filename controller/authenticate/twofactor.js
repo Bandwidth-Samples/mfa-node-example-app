@@ -14,6 +14,8 @@ twofactor.Configuration.basicAuthPassword = exampleAppConfig.apiPass;
  *   to: "string",
  *   applicationId: "string",
  *   scope: "string"
+ *   message: "string"
+ *   digits: integer
  * }
  *
  * To learn more about each field, please refer to the documentation.
@@ -40,11 +42,11 @@ const sendSmsCode = async (phoneNumber) => {
  * The structure of the object follows
  *
  * {
- *   from: "string",
  *   to: "string",
  *   applicationId: "string",
  *   scope: "string",
  *   code: "string"
+ *   expirationTimeInMinutes: integer
  * }
  *
  * To learn more about each field, please refer to the documentation.
@@ -57,12 +59,10 @@ const checkCode = async (user) => {
 
   return await controller.createVerifyTwoFactor(exampleAppConfig.accountId,
     new twofactor.TwoFactorVerifyRequestSchema({
-      from: exampleAppConfig.phoneNumber,
       to: user.phone,
       applicationId: exampleAppConfig.applicationId,
       scope: 'authorization',
       code: user.code,
-      digits: 6,
       expirationTimeInMinutes: 3
     }));
 };
